@@ -28,7 +28,7 @@ exports.createArticle = (req, res) => {
     if (error || !articleSaved) {
       return res.status(400).json({
         status: 'error',
-        message: 'Article could not be save'
+        message: 'Article could not be saved'
       })
     }
 
@@ -42,7 +42,14 @@ exports.createArticle = (req, res) => {
 
 exports.getArticles = (req, res) => {
   
-  Article.find({}).exec((error, articles) => {
+  const listArticles = Article.find({});
+
+  if (req.params.latest) {
+      listArticles.limit(3);
+  }
+
+  listArticles.sort({date: -1})
+              .exec((error, articles) => {
 
     if (error || !articles) {
       return res.status(404).json({
@@ -53,7 +60,57 @@ exports.getArticles = (req, res) => {
 
     return res.status(200).send({
       status: 'seccess',
+      counter: articles.length,
       articles
     })
   })
+}
+
+exports.getOneArticle = (req, res) => {
+
+  const id = req.params.id;
+
+  Article.findById(id, (error, article) => {
+
+    if (error || !article) {
+      return res.status(404).json({
+        status: 'error',
+        message: "it could not find article"
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      article
+    });
+
+  });
+}
+
+exports.deleteOneArticle = (req, res) => {
+
+  let id = req.params.id;
+
+  Article.findOneAndDelete({_id: id}, (error, articleDeleted) => {
+
+    if (error || !articleDeleted) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Error trying delete the article'
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      article: articleDeleted,
+      message: 'Article deleted'
+    });
+
+  });
+
+}
+
+exports.updateArticle = (req, res) => {
+
+  const id = req.params.id;
 }
