@@ -112,5 +112,35 @@ exports.deleteOneArticle = (req, res) => {
 
 exports.updateArticle = (req, res) => {
 
-  const id = req.params.id;
+  const { id } = req.params;
+  const articleData = req.body;
+
+  try {
+    const title = !validator.isEmpty(articleData.title) && validator.isLength(articleData.title, {min: 3, max: undefined});
+    const content = !validator.isEmpty(articleData.content);
+
+    if (!title || !content) {
+      throw new Error("It could not validate infomation");
+    }
+
+  } catch (err) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Client did not sent data'
+    })
+  }
+
+  Article.findByIdAndUpdate({_id: id}, articleData, {new: true}, (error, articleUpdated) => {
+
+    if (error || !articleUpdated) {
+      return res.status(500).json({
+        status:'error',
+        message: 'Article could not be updated'
+      });
+    }
+    return res.status(200).json({
+      status:'success',
+      article: articleUpdated
+    });
+  });
 }
