@@ -1,29 +1,25 @@
-const validator = require('validator');
+const fs = require('fs');
+const path = require('path');
 const Article = require('../models/ArticlesModel');
-
+const { validateArticle } = require('../utils/validator');
 
 exports.createArticle = (req, res) => {
-  
+
   const articleData = req.body;
 
   try {
-    const title = !validator.isEmpty(articleData.title) && validator.isLength(articleData.title, {min: 3, max: undefined});
-    const content = !validator.isEmpty(articleData.content);
-
-    if (!title || !content) {
-      throw new Error("It could not validate infomation");
-    }
+    validateArticle(articleData);
 
   } catch (err) {
     return res.status(400).json({
       status: 'error',
       message: 'Client did not sent data'
-    })
+    });
   }
 
   const article = new Article(articleData);
 
-  article.save((error, articleSaved)=> {
+  article.save((error, articleSaved) => {
 
     if (error || !articleSaved) {
       return res.status(400).json({
@@ -38,32 +34,32 @@ exports.createArticle = (req, res) => {
       message: 'Article saved successfully'
     })
   })
-} 
+}
 
 exports.getArticles = (req, res) => {
-  
+
   const listArticles = Article.find({});
 
   if (req.params.latest) {
-      listArticles.limit(3);
+    listArticles.limit(3);
   }
 
-  listArticles.sort({date: -1})
-              .exec((error, articles) => {
+  listArticles.sort({ date: -1 })
+    .exec((error, articles) => {
 
-    if (error || !articles) {
-      return res.status(404).json({
-        status: 'error',
-        message: "It could not find articles"
-      });
-    }
+      if (error || !articles) {
+        return res.status(404).json({
+          status: 'error',
+          message: "It could not find articles"
+        });
+      }
 
-    return res.status(200).send({
-      status: 'seccess',
-      counter: articles.length,
-      articles
+      return res.status(200).send({
+        status: 'seccess',
+        counter: articles.length,
+        articles
+      })
     })
-  })
 }
 
 exports.getOneArticle = (req, res) => {
@@ -87,11 +83,41 @@ exports.getOneArticle = (req, res) => {
   });
 }
 
+exports.updateArticle = (req, res) => {
+
+  const { id } = req.params;
+  const articleData = req.body;
+
+  try {
+    validateArticle(articleData)
+
+  } catch (err) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Client did not sent data'
+    })
+  }
+
+  Article.findByIdAndUpdate({ _id: id }, articleData, { new: true }, (error, articleUpdated) => {
+
+    if (error || !articleUpdated) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Article could not be updated'
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      article: articleUpdated
+    });
+  });
+}
+
 exports.deleteOneArticle = (req, res) => {
 
   let id = req.params.id;
 
-  Article.findOneAndDelete({_id: id}, (error, articleDeleted) => {
+  Article.findOneAndDelete({ _id: id }, (error, articleDeleted) => {
 
     if (error || !articleDeleted) {
       return res.status(500).json({
@@ -110,37 +136,60 @@ exports.deleteOneArticle = (req, res) => {
 
 }
 
-exports.updateArticle = (req, res) => {
+exports.uploadImg = (req, res) => {
 
-  const { id } = req.params;
-  const articleData = req.body;
-
-  try {
-    const title = !validator.isEmpty(articleData.title) && validator.isLength(articleData.title, {min: 3, max: undefined});
-    const content = !validator.isEmpty(articleData.content);
-
-    if (!title || !content) {
-      throw new Error("It could not validate infomation");
-    }
-
-  } catch (err) {
+  if (!req.file && !req.files) {
     return res.status(400).json({
       status: 'error',
-      message: 'Client did not sent data'
+      message: 'Invalid request'
     })
   }
 
-  Article.findByIdAndUpdate({_id: id}, articleData, {new: true}, (error, articleUpdated) => {
+  const originalName = req.file.originalname;
+  const originalName_split = originalName.split('\.');
+  const extension = originalName_split[1]
 
-    if (error || !articleUpdated) {
-      return res.status(500).json({
-        status:'error',
-        message: 'Article could not be updated'
+  if (extension != 'png' && extension != 'jpg' &&
+    extension != 'jpeg' && extension != 'gif') {
+    fs.unlink(req.file.path, (error) => {
+      return res.status(400).json({
+        status: 'error',
+        message: 'File\'s format not valid'
+      })
+    });
+  } else {
+    
+    const { id } = req.params;
+
+    Article.findByIdAndUpdate({ _id: id }, { image: req.file.filename }, { new: true }, (error, articleUpdated) => {
+
+      if (error || !articleUpdated) {
+        return res.status(500).json({
+          status: 'error',
+          message: 'Article could not be updated'
+        });
+      }
+      return res.status(200).json({
+        status: 'success',
+        article: articleUpdated,
+        files: req.file
+      });
+    });
+  }
+}
+
+exports.showImg = (req, res) => {
+  const imgFile = req.params.file;
+  const pathFile = `./images/articles/${imgFile}`;
+
+  fs.stat(pathFile, (error, exist) => {
+    if (exist) {
+      return res.sendFile(path.resolve(pathFile));
+    } else {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Image does not exist'
       });
     }
-    return res.status(200).json({
-      status:'success',
-      article: articleUpdated
-    });
-  });
+  })
 }
