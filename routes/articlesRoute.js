@@ -19,6 +19,7 @@ router.post('/upload-img/:id',[uploads.single('file')], articlesController.uploa
 router.get('/image/:file', articlesController.showImg);
 router.get('/articles/:latest?', articlesController.getArticles);
 router.get('/article/:id', articlesController.getOneArticle);
+router.get('/search/:article', articlesController.searchArticle);
 router.delete('/article/:id', articlesController.deleteOneArticle);
 router.put('/article/:id', articlesController.updateArticle);
 

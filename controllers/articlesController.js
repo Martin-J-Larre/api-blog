@@ -193,3 +193,27 @@ exports.showImg = (req, res) => {
     }
   })
 }
+
+exports.searchArticle = (req, res) => {
+  let search = req.params.article;
+
+  Article.find({'$or': [
+    {'title': {'$regex': search, '$options': 'i'}},
+    {'content': {'$regex': search, '$options': 'i'}}
+  ]})
+  .sort({fecha: -1})
+  .exec((error, articlesFound) =>  {
+
+    if (error || !articlesFound || articlesFound.length <=0) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Articles could not be found'
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      articlesFound
+    });
+  });
+}
