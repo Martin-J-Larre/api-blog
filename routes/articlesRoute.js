@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const multer = require('multer')
+const multer = require('multer');
 const articlesController = require('../controllers/articlesController');
 
 const storage = multer.diskStorage({
@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
 });
 
 const uploads = multer({ storage })
-
 
 router.post('/create', articlesController.createArticle);
 router.post('/upload-img/:id',[uploads.single('file')], articlesController.uploadImg);

@@ -1,6 +1,8 @@
 # Blog Api NodeJS
+This a RESTful API with node for a blog. You can create an article with image, read any of articles, search for words and edit and delete articles.
+You can check this API with Postman with all these endpoints below.
 
-### Built with
+## Built with
 
 - NodeJS (CommonJS)
 - Express
@@ -11,56 +13,65 @@
 - Mongo Atlas DB
 - Mongoose
 
-### CRUD and Endpoints 
+## CRUD and Endpoints 
 
-#### Post
-> Create article:   
-`http://localhost:4000/api/create`
+### Post
+Create article:   
+`https://api-blog-node.onrender.com/api/create`
 
-> Post image:   
-`http://localhost:4000/api/upload-img/{ID-ARTICLE}`
+Post image:   
+`https://api-blog-node.onrender.com/api/upload-img/{ID-ARTICLE}`
 
->- Example:      
-`http://localhost:4000/api/article/63d5ed4cc9bf27ca0595edfd`
+- Example:      
+`https://api-blog-node.onrender.com/api/article/63d5ed4cc9bf27ca0595edfd`
 
-#### Get
-> Get all articles:   
-`http://localhost:4000/api/articles`
+### Get
+Get all articles:   
+`https://api-blog-node.onrender.com/api/articles`
 
-> Get one articles:   
-`http://localhost:4000/api/article/${ID:ARTICLE}`
+Get one articles:   
+`https://api-blog-node.onrender.com/api/article/${ID:ARTICLE}`
 
->- Example:      
-`http://localhost:4000/api/article/63d5ed4cc9bf27ca0595edfd`
+- Example:      
+`https://api-blog-node.onrender.com/api/article/63d5ed4cc9bf27ca0595edfd`
 
-> Get image:   
-`http://localhost:4000/api/image/${FILENAME}`
+Get image:   
+`https://api-blog-node.onrender.com/api/image/${FILENAME}`
 
->- Example:      
-`http://localhost:4000/api/article/63d5ed4cc9bf27ca0595edfd`
+- Example:      
+`https://api-blog-node.onrender.com/api/image/article1675054861980newyork.jpg`
 
-> Get article by search with words:   
-`http://localhost:4000/api/search/{ANYWORD}`
+Get article by search with words:   
+`https://api-blog-node.onrender.com/api/search/{ANYWORD}`
 
->- Example:      
-`http://localhost:4000/api/search/new`
+- Example:      
+`https://api-blog-node.onrender.com/api/search/new`
 
-#### Put
-> Update one article by id:   
-`http://localhost:4000/api/article/${ID-ARTICLE}`
+### Put
+Update one article by id:   
+`https://api-blog-node.onrender.com/api/article/${ID-ARTICLE}`
 
->- Example:      
-`http://localhost:4000/api/article/63d5ed4cc9bf27ca0595edfd`
+- Example:      
+`https://api-blog-node.onrender.com/api/article/63d5ed4cc9bf27ca0595edfd`
 
-#### Delete
-> Delete one article by id:   
-`http://localhost:4000/api/article/${ID-ARTICLE}`
+### Delete
+Delete one article by id:   
+`https://api-blog-node.onrender.com/api/article/${ID-ARTICLE}`
 
->- Example:      
-`http://localhost:4000/api/article/63d4b652f9797fe3e9d6e9ec`
+- Example:      
+`https://api-blog-node.onrender.com/api/article/63d4b652f9797fe3e9d6e9ec`
+
+- Body request example in JSON   
+
+  `{
+      "title": "Lorem lorem",
+      "content": "Lorem lorem lorem lorem lorem, lorem lorem lorem",
+      "image": *File png, jpg, jpeg or gif*
+    }
+  `
 
 
-## Server for check
+## Server runnig for check
 
-- URL - [Add your name here](https://www.your-site.com)
+- URL - [https://api-blog-node.onrender.com/](https://api-blog-node.onrender.com/)
 

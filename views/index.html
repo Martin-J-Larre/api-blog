@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes Api</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Api Blog Node</h1>
+  <h2>Post</h2>
+  <ul>
+    <li><h3>Create Article</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/create</li>
+    <li><h3>Post Image</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/upload-img/{ID-ARTICLE}</li>
+    <li><h3>Example Post Image</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/63d5ed4cc9bf27ca0595edfd</li>
+  </ul>
+  <hr>
+  <h2>Get</h2>
+  <ul>
+    <li><h3>Get All Articles</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/articles</li>
+    <li><h3>Get One Article</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/${ID:ARTICLE}</li>
+    <li><h3>Example Get One Article</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/63d5ed4cc9bf27ca0595edfd</li>
+    <li><h3>Get Image</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/image/${FILENAME}</li>
+    <li><h3>Example Get Image</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/image/article1675054861980newyork.jpg</li>
+    <li><h3>Get article by search with words</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/search/{ANYWORD}</li>
+    <li><h3>Example Get article by search with words</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/search/new</li>
+  </ul>
+  <hr>
+  <h2>Put</h2>
+  <ul>
+    <li><h3>Update One Article by id</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/${ID-ARTICLE}</li>
+    <li><h3>Example Update One Article by id</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/63d5ed4cc9bf27ca0595edfd</li>
+  </ul>
+  <hr>
+  <h2>Delete</h2>
+  <ul>
+    <li><h3>Delete One Article by id</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/${ID-ARTICLE}</li>
+    <li><h3>Example Delete One Article by id</h3></li>
+    <li class="links">https://api-blog-node.onrender.com/api/article/63d4b652f9797fe3e9d6e9ec</li>
+  </ul>
+  <hr>
+  <h2>Body request example in JSON</h2>
+  <pre class="links">
+    {
+      "title": "Lorem lorem",
+      "content": "Lorem lorem lorem lorem lorem, lorem lorem lorem",
+      "image": *File png, jpg, jpeg or gif*
+    }
+  </pre>
+
+</body>
+</html>
