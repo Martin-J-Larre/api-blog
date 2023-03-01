@@ -13,6 +13,8 @@ You can check this API with Postman with all these endpoints below.
 - Mongo Atlas DB
 - Mongoose
 
+You can check this app with postman in a server running with all endpoints below.
+
 ## CRUD and Endpoints 
 
 ### Post
