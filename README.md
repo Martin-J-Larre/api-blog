@@ -4,6 +4,7 @@ You can check this API with Postman with all these endpoints below.
 
 ## Built with
 
+- Design pattern MVC
 - NodeJS (CommonJS)
 - Express
 - Cors
